@@ -5,7 +5,6 @@
 >Cấu trúc của tomcat server
 
 
-![image](https://github.com/user-attachments/assets/d1aa7925-07b7-4bc8-ba99-b2a02a5281ff)
 
 ![image](https://github.com/user-attachments/assets/94fb3827-f2bc-4070-8ab2-adb6fc9ba0d5)
 
