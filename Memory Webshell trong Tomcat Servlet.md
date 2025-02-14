@@ -55,16 +55,16 @@ Method requestInitialized() nhận vào tham số dạng ServletRequestEvent.
 
 ***Trước hết hãy cùng tìm hiểu về Reflection API***
 
-Reflection API là một phần quan trọng của Java, giúp bạn thao tác với các lớp, phương thức, và thuộc tính ngay cả khi bạn không biết về chúng tại thời điểm biên dịch.
+Reflection API là một phần quan trọng của Java, giúp thao tác với các lớp, phương thức, và thuộc tính ngay cả khi bạn không biết về chúng tại thời điểm biên dịch.
 
-Reflection cho phép bạn khám phá và sử dụng các thành phần của một chương trình trong quá trình chạy (runtime).
+Reflection cho phép khám phá và sử dụng các thành phần của một chương trình trong quá trình chạy (runtime).
 
 Công dụng chính của Reflection API:
 
-* Khám phá thông tin của các lớp: Bạn có thể lấy thông tin về tên lớp, các phương thức, các trường (fields) và các hàm tạo (constructors) của một lớp.
-* Tạo đối tượng: Reflection cho phép bạn tạo ra các đối tượng của một lớp mà không cần biết trước tên của lớp đó.
-* Gọi phương thức: Bạn có thể gọi các phương thức của một đối tượng, ngay cả khi bạn không biết tên phương thức đó tại thời điểm biên dịch.
-* Thay đổi giá trị của các trường: Bạn có thể truy cập và thay đổi giá trị của các trường của một đối tượng.
+* Khám phá thông tin của các lớp: có thể lấy thông tin về tên lớp, các phương thức, các trường (fields) và các hàm tạo (constructors) của một lớp.
+* Tạo đối tượng: Reflection cho phép tạo ra các đối tượng của một lớp mà không cần biết trước tên của lớp đó.
+* Gọi phương thức: có thể gọi các phương thức của một đối tượng, ngay cả khi bạn không biết tên phương thức đó tại thời điểm biên dịch.
+* Thay đổi giá trị của các trường: có thể truy cập và thay đổi giá trị của các trường của một đối tượng.
 
 ![image](https://github.com/user-attachments/assets/09f7c3bc-6e34-4925-bb52-1582d833b2a9)
 > Một ví dụ về reflect lấy ra tất cả các method.
@@ -237,11 +237,11 @@ Debug ta thu được các trường trong ApplicationFilterConfig(config). Tron
 Trong Java Servlet, dispatcher là cơ chế để chuyển tiếp hoặc chuyển hướng request từ một servlet này sang một servlet khác hoặc JSP.
 
 Có hai loại chính:
-* Request Dispatcher (RequestDispatcher)
-  * RequestDispatcher là một interface trong Servlet API, hỗ trợ hai phương thức:
-    * forward(request, response) → Chuyển tiếp request.
-    * include(request, response) → Bao gồm nội dung từ một resource khác.
-* Dispatcher Type (DispatcherType)
+Trong Tomcat, Dispatcher đề cập đến cơ chế điều phối yêu cầu (request dispatching), tức là cách Tomcat xử lý và chuyển tiếp các yêu cầu HTTP bên trong ứng dụng web.
+
+Có hai cơ chế chính liên quan đến Dispatcher trong Tomcat:
+* RequestDispatcher – Chuyển tiếp hoặc include request trong một ứng dụng web.
+* Mapper & Pipeline Dispatcher – Điều phối request trong nội bộ Tomcat.
   
   |DispatcherType|Ý nghĩa|
   |:---:|:----:|
@@ -269,7 +269,7 @@ Sau khi upload shell mình xóa file shell đi và kết quả mình vẫn thự
 ## Inject Memory Webshell thông qua Servlet
 ### Tìm hiểu về StandardWrapper
 #### Giới thiệu về StandardWrapper
-StandardWrapper là một lớp trong Apache Tomcat, đóng vai trò quản lý vòng đời của một Servlet trong ứng dụng web. Nó là một wrapper (bao bọc) giúp Tomcat quản lý từng Servlet riêng lẻ theo chuẩn Java Servlet API.
+StandardWrapper là một lớp trong Apache Tomcat, đóng vai trò quản lý vòng đời của một Servlet trong ứng dụng web. Nó là một wrapper giúp Tomcat quản lý từng Servlet riêng lẻ theo chuẩn Java Servlet API.
 
 Container là một interface trong Tomcat dùng để chứa các Wrapper hoặc Context
 #### Vai trò của StandardWrapper trong Tomcat
