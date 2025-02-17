@@ -144,17 +144,17 @@ Sau khi xóa shell ta thấy vẫn có thể thực thi được lệnh
 
 ![image](https://github.com/user-attachments/assets/99f012f0-b9c7-45a2-9502-8b6609d5b0a0)
 
-Khi ứng dụng thực hiện filter thì sẽ gọi đến method doFilter()
+Khi ứng dụng thực hiện filter thì sẽ gọi đến method doFilter() của class filterDemo do class này kế thừa interface Filter
 
 Chính vì vậy ta sẽ đặt break point tại method doFilter()
 
 ![image](https://github.com/user-attachments/assets/0cbe3e0a-94af-47fa-8dfa-32cac6977323)
 
-Từ quá trình debug ta thấy rằng trước khi gọi đến method doFilter() thì method internalDoFilter trong class ApplicationFilterChain được gọi.
+Từ quá trình debug ta thấy rằng trước khi gọi đến method doFilter() của class filterDemo thì method internalDoFilter trong class ApplicationFilterChain được gọi.
 
 ![image](https://github.com/user-attachments/assets/4c910d41-1108-455f-a48e-204f4986afa7)
 
-Trước khi gọi đến method internalDoFilter thì method doFilter được gọi.
+Trước khi gọi đến method internalDoFilter() thì method doFilter() của class ApplicationFilterChain trong  được gọi.
 
 ```
 public void doFilter(ServletRequest request, ServletResponse response) throws IOException, ServletException {
@@ -234,7 +234,6 @@ Debug ta thu được các trường trong ApplicationFilterConfig(config). Tron
 
 Trong Java Servlet, dispatcher là cơ chế để chuyển tiếp hoặc chuyển hướng request từ một servlet này sang một servlet khác hoặc JSP.
 
-Có hai loại chính:
 Trong Tomcat, Dispatcher đề cập đến cơ chế điều phối yêu cầu (request dispatching), tức là cách Tomcat xử lý và chuyển tiếp các yêu cầu HTTP bên trong ứng dụng web.
 
 Có hai cơ chế chính liên quan đến Dispatcher trong Tomcat:
