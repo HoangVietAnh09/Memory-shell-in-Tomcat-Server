@@ -117,18 +117,9 @@ Lúc này thì Listener thực sự được add vào trong Context của Web Se
 
 ![image](https://github.com/user-attachments/assets/0f98d22d-ead2-497c-baae-806d8b6cf9d3)
 
-Tuy nhiên quay lại với class ApplicationContext ta thấy có hàm checkState để kiểm tra trạng thái.
+Trong quá trính debug ta thấy method addApplicationLifecycleListener trong class StandardContext được gọi do mới tạo do chúng ta tạo mới một session. Chính vì vậy mà ta
+sẽ không sử dụng hàm này để thêm listener vào context. Chúng ta tạo một filter kế thừa ServletRequestListener nên hàm addApplicationEventListener sẽ được gọi
 
-Nếu không trải là trạng thái trước khi bắt đầu thì sẽ sinh ra ngoại lệ 
-
-![image](https://github.com/user-attachments/assets/7fb4d50d-9222-4782-8140-059ebec146d7)
-
-![image](https://github.com/user-attachments/assets/3c6c8ef9-02bb-4f8d-9487-6a183ed7f9ec)
-> Các giá trị được định nghĩa trong enum LifecycleState
-
-Từ đây ta thấy rằng nêu thêm listener ở class ApplicationContext sẽ không thể được do class này có điều kiện đối chiếu.
-
-Chính vì vậy ta phải thêm ở class StandardContext
 
 > Đúc kết lại thì ý tưởng sẽ là thêm listener ở class StandardContext bằng cách thông qua Reflect API
 
@@ -136,7 +127,14 @@ Chính vì vậy ta phải thêm ở class StandardContext
 
 Thông qua 2 lần ánh xạ ta đã có thể thêm được 1 listener mới
 
-Bằng các lỗ hỗ trên trang web cho phép upload file độc hại ta có thể ta có thể inject một file .jsp làm shell thực thi lệnh
+Bằng các lỗ hổng trên trang web cho phép upload file độc hại ta có thể ta có thể inject một file .jsp làm shell thực thi lệnh
+
+![image](https://github.com/user-attachments/assets/eadd8199-03dd-4d18-b5b6-54416d950735)
+
+Sau khi xóa shell ta thấy vẫn có thể thực thi được lệnh
+
+![image](https://github.com/user-attachments/assets/0d60eddd-57bb-4aa6-9090-7b2603d42100)
+
 
 ![image](https://github.com/user-attachments/assets/dcc9c6f6-df84-45c2-9fc2-8581f102b4c4)
 
@@ -259,6 +257,9 @@ Từ đây ta có thể thấy được hướng khai thác sẽ là:
 
 * Tạo filterMap rồi thêm vào StandardContext để filter thực hiện
 
+![image](https://github.com/user-attachments/assets/a32a5968-4b48-418a-bd26-30e811da5879)
+
+
 Sau khi upload shell mình xóa file shell đi và kết quả mình vẫn thực hiện được lệnh tức là đã thành công
 
 ![image](https://github.com/user-attachments/assets/62ca7dff-b184-4e36-86f1-21648b72e023)
@@ -267,12 +268,12 @@ Sau khi upload shell mình xóa file shell đi và kết quả mình vẫn thự
 
 
 ## Inject Memory Webshell thông qua Servlet
-### Tìm hiểu về StandardWrapper
+### Tìm hiểu về Wrapper
 #### Giới thiệu về StandardWrapper
-StandardWrapper là một lớp trong Apache Tomcat, đóng vai trò quản lý vòng đời của một Servlet trong ứng dụng web. Nó là một wrapper giúp Tomcat quản lý từng Servlet riêng lẻ theo chuẩn Java Servlet API.
+Wrapper là một lớp trong Apache Tomcat, đóng vai trò quản lý vòng đời của một Servlet trong ứng dụng web. Nó là giúp Tomcat quản lý từng Servlet riêng lẻ theo chuẩn Java Servlet API.
 
 Container là một interface trong Tomcat dùng để chứa các Wrapper hoặc Context
-#### Vai trò của StandardWrapper trong Tomcat
+#### Vai trò của Wrapper trong Tomcat
 * Quản lý vòng đời Servlet
   * Gọi init() khi Servlet được khởi tạo
   * Xử lý request bằng service()
@@ -283,29 +284,49 @@ Container là một interface trong Tomcat dùng để chứa các Wrapper hoặ
 * Hỗ trợ tải Servlet theo yêu cầu (Lazy Loading)
 * Ghi log & xử lý lỗi Servlet
 
-#### Cách StandardWrapper hoạt động
+#### Cách Wrapper hoạt động
 * Khi Tomcat khởi động
-  * StandardWrapper được tạo ra cho mỗi Servlet được định nghĩa trong ứng dụng.
+  * Wrapper được tạo ra cho mỗi Servlet được định nghĩa trong ứng dụng. Nếu không có wrapper thì sẽ sử dụng StandardWrapper
   * Nếu load-on-startup >= 0, nó sẽ khởi tạo Servlet ngay lập tức.
 * Khi có request đến Servlet
-  * Nếu Servlet chưa được khởi tạo, StandardWrapper sẽ gọi loadServlet().
+  * Nếu Servlet chưa được khởi tạo, Wrapper sẽ gọi loadServlet().
   * service() của Servlet được gọi để xử lý request.
 * Khi Tomcat dừng hoặc ứng dụng bị undeploy
-  * StandardWrapper gọi destroy() để dọn dẹp tài nguyên
+  * Wrapper gọi destroy() để dọn dẹp tài nguyên
  
 Trong class StandardContext ta thấy có method là addChild() với tham số chuyền vào là một conntainer với chức năng chính là thay thế Servlet JSP cũ bằng một Servlet JSP mới và đảm bảo việc ánh xạ URL đến servlet mới.
 
   ![Screenshot 2025-02-11 091850](https://github.com/user-attachments/assets/cd6878c4-5e5e-4a3f-b083-a33823825dd0)
 
-Không chỉ vậy trong StandardContext còn hộ trợ tạo một wrapper mới thông qua method createWrapper()
+Không chỉ vậy trong StandardContext còn hộ trợ tạo một wrapper mới thông qua method createWrapper(). Nếu wrapper chống thì sẽ tự động tạo StandardContext
 
-![image](https://github.com/user-attachments/assets/6a09ec0a-f2dc-4c20-a97f-7c68a8984aa3)
+![image](https://github.com/user-attachments/assets/a7b9e5af-d0bd-4ff5-b938-f30b03cd5b1c)
+
+
+
+![image](https://github.com/user-attachments/assets/4dc66750-72e8-4242-8a73-875d3e95aac9)
 
 
 Từ đấy ta hình dung được quá quá trình inject sẽ là 
 * Tạo một wrapper mới
 * Set các giá trị cho các thuộc tính của wrapper này
 * Thay thế các servlet cũ bằng servlet mới vừa tạo
+
+![image](https://github.com/user-attachments/assets/3560ebdb-ae00-4e0b-af9d-65f8f42e1a9b)
+
+![image](https://github.com/user-attachments/assets/3b99528f-4ef7-4238-bdcc-a3d3be06da61)
+
+
+![image](https://github.com/user-attachments/assets/6c98e547-6271-46fa-9dbb-b27619b29a2d)
+
+![image](https://github.com/user-attachments/assets/fc086582-d449-4104-a655-dbaf14f38704)
+
+
+
+
+
+
+
 
 
  
