@@ -66,7 +66,7 @@ Công dụng chính của Reflection API:
 * Gọi phương thức: có thể gọi các phương thức của một đối tượng, ngay cả khi bạn không biết tên phương thức đó tại thời điểm biên dịch.
 * Thay đổi giá trị của các trường: có thể truy cập và thay đổi giá trị của các trường của một đối tượng.
 
-![image](https://github.com/user-attachments/assets/09f7c3bc-6e34-4925-bb52-1582d833b2a9)
+![image](https://github.com/user-attachments/assets/0406c840-73ca-4e91-a568-e53cb83b4fc9)
 > Một ví dụ về reflect lấy ra tất cả các method.
 
 
