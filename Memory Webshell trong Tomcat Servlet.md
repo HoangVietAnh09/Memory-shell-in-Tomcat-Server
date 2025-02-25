@@ -150,6 +150,11 @@ Chính vì vậy ta sẽ đặt break point tại method doFilter()
 
 ![image](https://github.com/user-attachments/assets/0cbe3e0a-94af-47fa-8dfa-32cac6977323)
 
+Từ đây ta có một đoạn stack trace
+
+![image](https://github.com/user-attachments/assets/c3a145e1-d99a-4e08-af31-ab90512fd818)
+
+
 Từ quá trình debug ta thấy rằng trước khi gọi đến method doFilter() của class filterDemo thì method internalDoFilter trong class ApplicationFilterChain được gọi.
 
 ![image](https://github.com/user-attachments/assets/4c910d41-1108-455f-a48e-204f4986afa7)
