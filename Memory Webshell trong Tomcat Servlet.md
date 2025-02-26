@@ -96,6 +96,10 @@ Bến cạnh ServletContext cần tìm hiểu thêm 2 cái class là Application
 * Thay vì cho phép các servlet tương tác trực tiếp với ApplicationContext, Tomcat cung cấp đối tượng ServletContext thông qua ApplicationContextFacade.
 * Cách hoạt động: Khi bạn gọi getServletContext() trong một servlet, Tomcat không trả về trực tiếp một đối tượng ApplicationContext. Thay vào đó, nó trả về một đối tượng ApplicationContextFacade. ApplicationContextFacade sẽ chuyển tiếp (delegate) lời gọi phương thức của bạn tới ApplicationContext.
 
+Ta có stack strace như sau
+
+![image](https://github.com/user-attachments/assets/d8a00afa-c06b-49f3-a5a0-fcfbf2da6a4e)
+
 Từ đây ta thấy rằng để có thể thực hiện thêm 1 listener mới ta phải thực hiện qua class ApplicationContextFacade
 
 Trong ApplicationContextFacade có hàm addListener() gọi đến hàm addListener() của ApplicationContext.
