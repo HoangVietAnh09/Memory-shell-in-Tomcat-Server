@@ -59,6 +59,21 @@ Reflection API là một phần quan trọng của Java, giúp thao tác với c
 
 Reflection cho phép khám phá và sử dụng các thành phần của một chương trình trong quá trình chạy (runtime).
 
+Class java.lang.Class là một entry point của mọi thao tác của reflection API.
+
+Trong java có 2 cách lấy Object class:
+* Sử dụng Object.getClass() method => method này sẽ trả về runtime Class object type
+*  Sử dụng .class => ClassName.class trả về Class object static
+
+![image](https://github.com/user-attachments/assets/a3689662-ee04-421b-a9ed-e773718b3e43)
+> bypass blacklist runtime
+
+![image](https://github.com/user-attachments/assets/681e5154-9e96-41f9-b1e4-fe992bc0b063)
+> Lấy method getRuntime
+
+![image](https://github.com/user-attachments/assets/e1852cfc-82b8-47d7-8cab-387750ba64ba)
+> Láy method exec() và thực thi
+
 Công dụng chính của Reflection API:
 
 * Khám phá thông tin của các lớp: có thể lấy thông tin về tên lớp, các phương thức, các trường (fields) và các hàm tạo (constructors) của một lớp.
